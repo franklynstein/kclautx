@@ -1667,7 +1667,7 @@
     const stored = parseInt(localStorage.getItem(SPOTS_KEY) || '', 10);
     if (!isNaN(stored) && count) count.textContent = stored.toLocaleString();
 
-    const API_URL = 'https://api.kclautx.com/api/waitlist';
+    const API_URL = 'https://wait-api.kclautx.com/api/waitlist';
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
