@@ -1003,11 +1003,53 @@
   .foot-col a{color:#5B6271;font-size:13.5px;transition:color .15s}
   .foot-col a:hover{color:var(--blue)}
 
+  /* hamburger toggle (hidden on desktop) */
+  .nav-toggle{
+    display:none;width:42px;height:42px;border-radius:10px;
+    align-items:center;justify-content:center;
+    background:transparent;border:1px solid var(--line);
+  }
+  .nav-toggle span{
+    display:block;width:18px;height:2px;background:var(--ink);
+    position:relative;transition:transform .2s, opacity .2s;
+  }
+  .nav-toggle span::before,
+  .nav-toggle span::after{
+    content:"";position:absolute;left:0;width:18px;height:2px;background:var(--ink);
+    transition:transform .2s, top .2s;
+  }
+  .nav-toggle span::before{top:-6px}
+  .nav-toggle span::after{top:6px}
+  .nav.open .nav-toggle span{background:transparent}
+  .nav.open .nav-toggle span::before{top:0;transform:rotate(45deg)}
+  .nav.open .nav-toggle span::after{top:0;transform:rotate(-45deg)}
+
   /* ============ Responsive ============ */
   @media (max-width:980px){
-    .nav-links{gap:20px}
-    .nav-links a:not(.btn){display:none}
-    .hero-tiles{grid-template-columns:repeat(2,1fr)}
+    .wrap{padding:0 20px}
+    .nav-toggle{display:inline-flex}
+    .nav-inner{position:relative}
+    .nav-links{
+      position:absolute;top:100%;left:0;right:0;
+      flex-direction:column;align-items:stretch;gap:0;
+      background:rgba(255,255,255,0.98);backdrop-filter:saturate(140%) blur(10px);
+      border-top:1px solid var(--line);
+      padding:8px 20px 16px;
+      transform:translateY(-8px);opacity:0;pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .nav-links a{
+      display:block;padding:14px 4px;font-size:16px;
+      border-bottom:1px solid var(--line);
+    }
+    .nav-links a:last-child{border-bottom:0}
+    .nav.open .nav-links{
+      transform:translateY(0);opacity:1;pointer-events:auto;
+    }
+    .hero{padding-top:40px}
+    .hero h1 br{display:none}
+    .hero p.lede br{display:none}
+    .hero-tiles{grid-template-columns:repeat(2,1fr);margin-top:48px}
     .hero-tiles .tile-tx{grid-row:1;grid-column:1/-1;aspect-ratio:1.6}
     .feat-grid{grid-template-columns:1fr 1fr}
     .steps-grid{grid-template-columns:1fr;gap:24px;min-height:0}
@@ -1019,12 +1061,58 @@
     .role-grid{grid-template-columns:1fr}
     .role{border-left:0;border-top:1px solid var(--line);padding-top:24px;margin-top:24px}
     .support-row,.community-row{grid-template-columns:1fr}
-    .cta-banner{grid-template-columns:1fr;padding:36px}
-    .cta-phones{height:280px}
-    .foot-grid{grid-template-columns:1fr 1fr}
+    .cta-section{padding:24px 0 60px}
+    .cta-banner{grid-template-columns:1fr;padding:36px;border-radius:22px}
+    .cta-banner h2{font-size:28px}
+    .cta-phones{min-height:auto;height:260px;align-items:flex-end}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
     .nav-arrow.left{left:8px}
     .nav-arrow.right{right:8px}
+    .section-head h2,
+    .sec-head h2{font-size:30px}
   }
+
+  /* phones / very small */
+  @media (max-width:520px){
+    .wrap{padding:0 16px}
+    .hero h1{font-size:34px}
+    .hero p.lede{font-size:15px}
+    .hero-stats{gap:16px;flex-wrap:wrap;justify-content:center}
+    .download-row{margin-top:24px}
+    .waitlist-cta{height:48px;padding:0 22px;font-size:14.5px}
+    .feat-grid{grid-template-columns:1fr;gap:0}
+    .feat{padding:24px 4px;border-left:0;border-top:1px solid var(--line)}
+    .feat-grid > .feat:first-child{border-top:0;padding-top:8px}
+    .feat-grid > .feat:nth-child(n+4){padding-top:24px}
+    .feat-grid > .feat:nth-child(-n+3){padding-bottom:24px}
+    .section-head{margin-bottom:36px}
+    .section-head h2,
+    .sec-head h2,
+    .testimonials h2,
+    .everyone .section-head h2,
+    .support .section-head h2,
+    .community-text h2,
+    .waitlist-head h2{font-size:26px;line-height:1.2}
+    .cta-banner{padding:28px 22px;border-radius:20px}
+    .cta-banner h2{font-size:24px}
+    .cta-banner h2 br{display:none}
+    .cta-banner p{font-size:14px}
+    .cta-buttons{gap:10px;flex-direction:column;align-items:stretch}
+    .cta-btn{justify-content:center;padding:14px 18px}
+    .cta-phones{height:220px;gap:0}
+    .mini-phone{width:110px}
+    .mini-phone.center{width:138px;margin:0 -12px}
+    .mini-phone.left,
+    .mini-phone.right{transform:translateY(28px)}
+    .foot-grid{grid-template-columns:1fr;gap:28px}
+    .nav-arrow{width:40px;height:40px}
+    .nav-arrow svg{width:14px;height:14px}
+    .quote-meta{padding:24px 8px 0;max-width:none}
+  }
+
+  /* global overflow safety */
+  html,body{overflow-x:hidden;max-width:100%}
+  img,svg,video{max-width:100%;height:auto}
 </style>
 </head>
 <body>
@@ -1035,8 +1123,11 @@
     <a href="#" class="logo" aria-label="KclautX">
       <img src="kclautx-logo.png" alt="KclautX" />
     </a>
-    <nav class="nav-links">
-      <a href="#about">About Us</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="about.html">About Us</a>
       <a href="support.html">Support</a>
     </nav>
   </div>
@@ -1137,7 +1228,7 @@
 </section>
 
 <!-- ============= STEPS ============= -->
-<section class="steps" style="height: 781.891px">
+<section class="steps">
   <span class="orb a"></span><span class="orb b"></span>
   <div class="wrap">
     <div class="section-head" data-reveal="up">
@@ -1164,7 +1255,7 @@
 
       <!-- phone -->
       <div class="phone-img">
-        <img src="phone-mockup.png" alt="KclautX mobile app showing total balance and quick actions" style="width: 310px; height: 437.891px" />
+        <img src="phone-mockup.png" alt="KclautX mobile app showing total balance and quick actions" />
       </div>
 
       <div class="steps-side">
@@ -1191,7 +1282,7 @@
 <section class="security" id="security">
   <div class="wrap">
     <div class="sec-head">
-      <h2 style="font-size: 32px; font-weight: 700; height: 40px">Your Security is Our Priority</h2>
+      <h2>Your Security is Our Priority</h2>
       <p>We offer top bank-level security and compliance.<br/>Your NGN Wallet is always ready for withdrawals.</p>
     </div>
     <div class="sec-grid">
@@ -1201,17 +1292,17 @@
           <p>Your funds and data are protected with military-grade encryption and multi-layer security protocols.</p>
         </div>
         <div class="sec-phone">
-          <img src="security-phone.png" alt="Security Enabled phone screen" style="width: 128.453px; object-fit: cover" />
+          <img src="security-phone.png" alt="Security Enabled phone screen" />
         </div>
       </div>
 
       <div class="sec-card cream">
-        <img class="shield-graphic" src="security-padlock.png" alt="Padlock shield" style="width: 190px; height: 190px" />
+        <img class="shield-graphic" src="security-padlock.png" alt="Padlock shield" />
       </div>
 
       <div class="sec-card instant">
         <div>
-          <h3 style="font-size: 24px; font-weight: 600; height: 3px">Instant Transaction</h3>
+          <h3>Instant Transaction</h3>
           <p style="font-size: 15px; padding: 20px 0px 0px">All transactions are processed instantly with real-time confirmations. No delays, no waiting.</p>
         </div>
         <button class="light-pill" style="font-family: Inter; font-size: 14px; color: #fff">
@@ -1314,7 +1405,7 @@
           <img src="support-male.png" alt="Male support agent with headset" />
         </div>
         <div class="sup-photo tall">
-          <img src="support-female.png" alt="Female support agent on call" style="width: 273.359px" />
+          <img src="support-female.png" alt="Female support agent on call" />
         </div>
       </div>
       <div class="support-text">
@@ -1382,7 +1473,7 @@
 <!-- ============= CTA BANNER ============= -->
 <section class="cta-section">
   <div class="wrap">
-    <div class="cta-banner" style="height: 450px; padding: 0px 20px; width: 1083px; background-position: center center; text-align: left">
+    <div class="cta-banner">
       <div class="cta-text">
         <h2>Ready to Get Started<br/>With Us Today?</h2>
         <p>Join thousands of users trading securely on KclautX</p>
@@ -1416,20 +1507,20 @@
         </a>
         <p>Your trusted exchange for crypto, giftcards and bills built for Nigeria, ready for the world.</p>
         <div class="socials">
-          <a href="#" class="soc" aria-label="Instagram">
+          <a href="https://www.instagram.com/kclautx" class="soc" aria-label="Instagram" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
           </a>
-          <a href="#" class="soc" aria-label="Twitter">
+          <a href="https://x.com/kclautx" class="soc" aria-label="X (Twitter)" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 4l-6 8 6 8h-3l-4.5-6L5 20H3l6.5-8L3 4h3l4.5 6L15 4h3z"/></svg>
           </a>
-          <a href="#" class="soc" aria-label="Telegram">
+          <a href="https://t.me/kclautx" class="soc" aria-label="Telegram" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 4L2 11l6 2 2 7 4-4 5 5z"/></svg>
           </a>
         </div>
       </div>
       <div class="foot-col">
         <h5>Company</h5>
-        <ul><li><a href="#">About Us</a></li></ul>
+        <ul><li><a href="about.html">About Us</a></li></ul>
       </div>
       <div class="foot-col">
         <h5>Legal</h5>
@@ -1457,6 +1548,25 @@
     if (window.scrollY > 4) nav.classList.add('scrolled');
     else nav.classList.remove('scrolled');
   });
+
+  // mobile nav toggle
+  (function(){
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    if (!toggle || !links) return;
+    const closeNav = () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+    toggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target)) closeNav();
+    });
+  })();
 
   // testimonial carousel
   const quotes = [
