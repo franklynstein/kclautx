@@ -1,5 +1,24 @@
 // ============ KclautX MODERN LAYER ============
 (function(){
+  // ---- Google Tag Manager ----
+  // Set GTM_ID to your container (e.g. 'GTM-XXXXXXX') to enable site-wide tracking.
+  // GA4 is configured inside the GTM container — no extra code needed here.
+  // Left blank so nothing loads until a real container ID is provided.
+  var GTM_ID = '';
+  window.dataLayer = window.dataLayer || [];
+  if (GTM_ID) {
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',GTM_ID);
+  }
+  // Push a dataLayer event for any element with data-gtm-event (e.g. app store buttons).
+  document.addEventListener('click', function(e){
+    var t = e.target && e.target.closest ? e.target.closest('[data-gtm-event]') : null;
+    if (!t) return;
+    window.dataLayer.push({ event: t.getAttribute('data-gtm-event'), store: t.getAttribute('data-store') || undefined });
+  });
+
   // Curtain on load
   const curtain = document.createElement('div');
   curtain.className = 'curtain';

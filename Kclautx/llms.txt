@@ -11,6 +11,8 @@
 ## Company
 - [About Us](https://kclautx.com/about): Who KclautX is and what we do.
 - [Help Center](https://kclautx.com/help): Guides and answers to common questions.
+- [Blog](https://kclautx.com/blog/): Guides on crypto, gift cards and bill payments.
+- [Download App](https://kclautx.com/app/): Get the KclautX Android & iOS app.
 - [Support](https://kclautx.com/support): Contact channels and assistance.
 
 ## Legal

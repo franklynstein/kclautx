@@ -17,3 +17,4 @@ User-agent: ClaudeBot
 Allow: /
 
 Sitemap: https://kclautx.com/sitemap.xml
+Sitemap: https://kclautx.com/blog/sitemap.xml
